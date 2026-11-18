@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Alt Şerit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #172a52; font-family: "Poppins", "Segoe UI", Arial, sans-serif; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 120px; background: #172a52; transform-origin: 0 0; }
+  .view { position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease; }
+  .view.on { opacity: 1; }
+  #iletisim svg { width: 1920px; height: 120px; display: block; }
+  #duyuru { display: flex; align-items: center; }
+  #dicon { flex: none; margin-left: 64px; width: 56px; height: 56px; }
+  #dwrap { flex: 1; overflow: hidden; margin: 0 64px 0 28px; white-space: nowrap; }
+  #dtext { display: inline-block; color: #fff; font-weight: 600; font-size: 42px; line-height: 120px; }
+  #dtext.scroll { animation: marq var(--dur, 20s) linear infinite; padding-left: 100%; }
+  @keyframes marq { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="iletisim" class="view on">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 120">
+
+<g transform="translate(181.8,37.0) scale(1.9166666666666667)" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M14.05 2a9 9 0 0 1 8 7.94"/><path d="M14.05 6A5 5 0 0 1 18 10"/></g><text x="237.8" y="71.5" font-family="Poppins" font-weight="400" font-size="32" fill="#fff">0242 510 25 25</text>
+<line x1="580.9" y1="32" x2="580.9" y2="88" stroke="#b9c0d1" stroke-width="3" stroke-linecap="round"/>
+<g transform="translate(687.5,35.0) scale(2.0833333333333335)" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></g><text x="750.7" y="69.5" font-family="Poppins" font-weight="400" font-size="26.5" fill="#fff">baskenthastanesi_alanya</text>
+<line x1="1205.8" y1="32" x2="1205.8" y2="88" stroke="#b9c0d1" stroke-width="3" stroke-linecap="round"/>
+<g transform="translate(1254.5,34.0) scale(2.1666666666666665)" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></g><text x="1317.8" y="69.5" font-family="Poppins" font-weight="400" font-size="26.5" fill="#fff">alanya.baskenthastaneleri.com</text>
+</svg>
+  </div>
+  <div id="duyuru" class="view">
+    <svg id="dicon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>
+    </svg>
+    <div id="dwrap"><span id="dtext"></span></div>
+  </div>
+</div>
+<script>
+(function () {
+  function fit() {
+    var s = window.innerWidth / 1920;
+    var st = document.getElementById("stage");
+    st.style.transform = "scale(" + s + ")";
+  }
+  fit(); window.addEventListener("resize", fit);
+
+  var ilet = document.getElementById("iletisim"), duy = document.getElementById("duyuru"), dt = document.getElementById("dtext"), last = null;
+
+  function apply(d) {
+    var aktif = d && d.aktif === true && typeof d.metin === "string" && d.metin.trim() !== "";
+    var key = aktif ? d.metin : "";
+    if (key === last) return;
+    last = key;
+    if (aktif) {
+      dt.className = ""; dt.style.removeProperty("--dur"); dt.textContent = d.metin.trim();
+      var wrap = document.getElementById("dwrap");
+      if (dt.offsetWidth > wrap.clientWidth) {
+        dt.className = "scroll";
+        dt.style.setProperty("--dur", Math.max(12, (dt.offsetWidth + wrap.clientWidth) / 110) + "s");
+      }
+      ilet.classList.remove("on"); duy.classList.add("on");
+    } else {
+      duy.classList.remove("on"); ilet.classList.add("on");
+    }
+  }
+
+  function load() {
+    fetch("duyuru.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(apply)
+      .catch(function () { /* hata olursa mevcut görünüm kalır */ });
+  }
+  load();
+  setInterval(load, 60 * 1000);
+})();
+</script>
+</body>
+</html>
