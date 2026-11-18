@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<title>Alt Şerit</title>
+<title>Alt Bilgi</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,51 +33,9 @@
 <g transform="translate(1254.5,34.0) scale(2.1666666666666665)" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></g><text x="1317.8" y="69.5" font-family="Poppins" font-weight="400" font-size="26.5" fill="#fff">alanya.baskenthastaneleri.com</text>
 </svg>
   </div>
-  <div id="duyuru" class="view">
-    <svg id="dicon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>
-    </svg>
-    <div id="dwrap"><span id="dtext"></span></div>
-  </div>
 </div>
 <script>
-(function () {
-  function fit() {
-    var s = window.innerWidth / 1920;
-    var st = document.getElementById("stage");
-    st.style.transform = "scale(" + s + ")";
-  }
-  fit(); window.addEventListener("resize", fit);
-
-  var ilet = document.getElementById("iletisim"), duy = document.getElementById("duyuru"), dt = document.getElementById("dtext"), last = null;
-
-  function apply(d) {
-    var aktif = d && d.aktif === true && typeof d.metin === "string" && d.metin.trim() !== "";
-    var key = aktif ? d.metin : "";
-    if (key === last) return;
-    last = key;
-    if (aktif) {
-      dt.className = ""; dt.style.removeProperty("--dur"); dt.textContent = d.metin.trim();
-      var wrap = document.getElementById("dwrap");
-      if (dt.offsetWidth > wrap.clientWidth) {
-        dt.className = "scroll";
-        dt.style.setProperty("--dur", Math.max(12, (dt.offsetWidth + wrap.clientWidth) / 110) + "s");
-      }
-      ilet.classList.remove("on"); duy.classList.add("on");
-    } else {
-      duy.classList.remove("on"); ilet.classList.add("on");
-    }
-  }
-
-  function load() {
-    fetch("duyuru.json?t=" + Date.now(), { cache: "no-store" })
-      .then(function (r) { return r.json(); })
-      .then(apply)
-      .catch(function () { /* hata olursa mevcut görünüm kalır */ });
-  }
-  load();
-  setInterval(load, 60 * 1000);
-})();
+(function(){function fit(){document.getElementById("stage").style.transform="scale("+(window.innerWidth/1920)+")";}fit();window.addEventListener("resize",fit);})();
 </script>
 </body>
 </html>
